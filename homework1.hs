@@ -3,7 +3,9 @@ import Data.Char
 -- exercises 1-4: CC validation
 
 toDigits :: Integer -> [Integer]
-toDigits = map (fromIntegral . digitToInt) . show
+toDigits n
+  | n > 0 = map (fromIntegral . digitToInt) $ show n
+  | otherwise = []
 
 toDigitsRev :: Integer -> [Integer]
 toDigitsRev = reverse . toDigits
