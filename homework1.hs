@@ -36,7 +36,23 @@ type Peg = String
 type Move = (Peg, Peg)
 
 hanoi :: Integer -> Peg -> Peg -> Peg -> [Move]
-hanoi 0 _ _ _ = []
-hanoi n a b c = hanoi (n-1) a c b
+hanoi n a b c
+  | n == 0 = []
+  | otherwise = hanoi (n-1) a c b
                 ++ [(a,b)]
                 ++ hanoi (n-1) c b a
+
+-- exercise 6: tower of hanoi with extra peg
+
+-- 1: move n-k to d (the extra)
+-- 2: move the remaining k to b, using normal hanoi
+-- 3: move n-k back from d to b
+-- k is chosen such that n is the kth triangle number
+
+hanoi4 :: Integer -> Peg -> Peg -> Peg -> Peg -> [Move]
+hanoi4 n a b c d
+ | n == 0 = []
+ | otherwise  = hanoi4 (n-k) a d b c
+                ++ hanoi k a b c
+                ++ hanoi4 (n-k) d b a c
+  where k = head $ [x | x <- [1..], x * (x + 1) `div` 2 >= n]
