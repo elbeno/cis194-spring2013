@@ -53,7 +53,7 @@ localMaxima _ = []
 -- Note: haskell syntax doesn't permit (-1) as a section. Hence subtract.
 
 frequencies :: [Integer] -> [Int]
-frequencies = map (subtract 1 . length) . group . sort . (++ [0..9])
+frequencies = map (length . tail) . group . sort . (++ [0..9])
 
 -- Convert a number to a column of stars, given the max m. Simply (m-n) spaces
 -- and n stars, then the baseline.
