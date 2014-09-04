@@ -84,5 +84,29 @@ map' :: (a -> b) -> [a] -> [b]
 map' f = foldr (\x xs -> f x : xs) []
 
 -- part 3: foldl implemented with foldr
+
+-- We need to build up a function that when applied to base will yield the right
+-- result.
+myFoldlFn :: (a -> b -> a) -> a -> [b] -> (a -> a)
+-- The base case is just the id function
+myFoldlFn f base [] = id
+-- The recursive case is the function that will apply f to the result of folding
+-- the rest of the list applied to its argument, and the list element
+myFoldlFn f base (x:xs) = \v -> f ((myFoldlFn f base xs) v) x
+
+-- this function can be built up with foldr
+myFoldlFn' f xs = foldr (\x g -> (\v -> g (f v x))) id xs
+-- or equivalently
+myFoldlFn'' f xs = foldr (\x g v -> g (f v x)) id xs
+
+-- now we need to apply that function over the list to get an all-encompassing
+-- function which we then apply to the base
 myFoldl :: (a -> b -> a) -> a -> [b] -> a
-myFoldl = undefined
+myFoldl f base xs = (foldr (\x g v -> g (f v x)) id xs) base
+
+-- exercise 4: finding primes with the Sieve of Sundaram
+
+sieveSundaram :: Integer -> [Integer]
+sieveSundaram n = 2 : map ((+1) . (*2)) ps
+  where cs = [c | j <- [1..n], i <- [1..j], c <- [i+j+2*i*j], c <= n]
+        ps = filter (not . flip elem cs) [1..n]
