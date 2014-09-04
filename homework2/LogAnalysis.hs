@@ -63,7 +63,7 @@ extractMsg :: LogMessage -> String
 extractMsg (LogMessage _ _ s) = s
 
 whatWentWrong :: [LogMessage] -> [String]
-whatWentWrong ms = map extractMsg . filter severityOver50 . inOrder . build $ ms
+whatWentWrong = map extractMsg . inOrder . build . filter severityOver50
 
 -- exercise 6: the culprit
 

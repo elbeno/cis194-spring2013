@@ -49,8 +49,7 @@ localMaxima _ = []
 
 -- Find the frequency of each digit: sort the list, group it, and count the
 -- frequency of each number. Make sure there's at least one of each, then
--- adjust, to get zeroes for missing numbers.
--- Note: haskell syntax doesn't permit (-1) as a section. Hence subtract.
+-- adjust (with tail), to get zeroes for missing numbers.
 
 frequencies :: [Integer] -> [Int]
 frequencies = map (length . tail) . group . sort . (++ [0..9])
