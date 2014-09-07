@@ -74,10 +74,9 @@ foldTree = foldr insert Leaf
 
 -- exercise 3: more folds
 
-
 -- part 1: xor
 xor :: [Bool] -> Bool
-xor = foldl (\x y -> x && not y || y && not x) False
+xor = foldl (/=) False
 
 -- part 2: map implemented with fold
 map' :: (a -> b) -> [a] -> [b]
